@@ -1,0 +1,38 @@
+import mongoose from 'mongoose';
+import Video from '../models/Video';
+
+const videos = [
+    {
+        title: "Basic Colors",
+        url: "https://www.youtube.com/watch?v=example1",
+        category: "Learning",
+        duration: 180
+    },
+    {
+        title: "Simple Shapes",
+        url: "https://www.youtube.com/watch?v=example2",
+        category: "Education",
+        duration: 240
+    },
+    {
+        title: "Animal Sounds",
+        url: "https://www.youtube.com/watch?v=example3",
+        category: "Interactive",
+        duration: 300
+    }
+];
+
+const seedVideos = async () => {
+    try {
+        await mongoose.connect('mongodb://localhost:27017/autistic_children_app');
+        await Video.deleteMany({}); // Clear existing videos
+        await Video.insertMany(videos);
+        console.log('Videos seeded successfully');
+        process.exit(0);
+    } catch (error) {
+        console.error('Error seeding videos:', error);
+        process.exit(1);
+    }
+};
+
+seedVideos();
