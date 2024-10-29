@@ -87,5 +87,3 @@ project-root/
      cd client
      npm start
      ```
-
-end final test.
