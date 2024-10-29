@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import interactionRoutes from './routes/interactionRoutes';
-import userRoutes from './routes/userRoutes';
+import analyticsRoutes from './routes/analyticsRoutes';
 import videoRoutes from './routes/videoRoutes';
 
 const app = express();
@@ -9,8 +8,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/interactions', interactionRoutes);
-app.use('/api/users', userRoutes);
+// API routes
+app.use('/api/analytics', analyticsRoutes);
 app.use('/api/videos', videoRoutes);
+
+// Error handling middleware
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Something went wrong!', error: err.message });
+});
 
 export default app;

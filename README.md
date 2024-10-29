@@ -1,6 +1,6 @@
-# Interactive Autism Learning Platform
+# Interactive Learning Platform
 
-An interactive web application designed for non-verbal autistic children, featuring a custom video player and analytics dashboard. The platform helps track and analyze children's engagement patterns and learning preferences through video interactions.
+An interactive web application featuring a custom video player and analytics dashboard. The platform helps track and analyze users' engagement patterns and learning preferences through video interactions.
 
 ## Project Structure
 ```

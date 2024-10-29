@@ -1,56 +1,60 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
+import './PieChart.css';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+Chart.register(ArcElement, Tooltip, Legend);
 
 interface PieChartProps {
     data: {
         labels: string[];
-        values: number[];
-    };
+        datasets: {
+            data: number[];
+            backgroundColor: string[];
+            borderColor: string[];
+            borderWidth: number;
+        }[];
+    } | null;
 }
 
 const PieChart: React.FC<PieChartProps> = ({ data }) => {
-    const chartData = {
-        labels: data.labels,
-        datasets: [
-            {
-                data: data.values,
-                backgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9F40',
-                ],
-                hoverBackgroundColor: [
-                    '#FF6384',
-                    '#36A2EB',
-                    '#FFCE56',
-                    '#4BC0C0',
-                    '#9966FF',
-                    '#FF9F40',
-                ],
-            },
-        ],
-    };
+    if (!data) {
+        return (
+            <div className="pie-chart-placeholder">
+                <Pie
+                    data={{
+                        labels: ['No Data'],
+                        datasets: [
+                            {
+                                data: [1],
+                                backgroundColor: ['#e0e0e0'],
+                                borderColor: ['#ffffff'],
+                                borderWidth: 1,
+                            },
+                        ],
+                    }}
+                    options={{
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                        },
+                    }}
+                />
+                <p>No user interactions recorded yet.</p>
+            </div>
+        );
+    }
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-            },
-            title: {
-                display: true,
-                text: 'Category Preferences',
-            },
-        },
-    };
+    if (!Array.isArray(data.labels) || !Array.isArray(data.datasets)) {
+        return <div>Invalid Pie Chart data.</div>;
+    }
 
-    return <Pie data={chartData} options={options} />;
+    return (
+        <div className="pie-chart-container">
+            <Pie data={data} />
+        </div>
+    );
 };
 
 export default PieChart;

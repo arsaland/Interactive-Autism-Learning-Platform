@@ -1,16 +1,50 @@
-import { Dispatch } from 'redux';
-import { api } from '../../utils/api';
+import { AppThunk } from '../store';
+import axios from 'axios';
 
-export const FETCH_ANALYTICS = 'FETCH_ANALYTICS';
+// Action Types
+export const FETCH_ANALYTICS_DATA = 'FETCH_ANALYTICS_DATA';
+export const FETCH_ANALYTICS_DATA_SUCCESS = 'FETCH_ANALYTICS_DATA_SUCCESS';
+export const FETCH_ANALYTICS_DATA_ERROR = 'FETCH_ANALYTICS_DATA_ERROR';
 
-export const fetchAnalytics = () => async (dispatch: Dispatch) => {
+// Analytics Data Interfaces
+export interface Interaction {
+    userId: string;
+    actions: number;
+    // Add other relevant fields
+}
+
+export interface CategoryPreference {
+    category: string;
+    preferenceScore: number;
+}
+
+export interface VideoEngagement {
+    videoId: string;
+    averageWatchTime: number;
+    engagementRate: number;
+}
+
+export interface AnalyticsData {
+    interactionData: Interaction[];
+    categoryPreferences: CategoryPreference[];
+    videoEngagement: VideoEngagement[];
+}
+
+// Fetch Analytics Data
+export const fetchAnalyticsData = (): AppThunk => async (dispatch) => {
     try {
-        const response = await api.get('/analytics');
+        dispatch({ type: FETCH_ANALYTICS_DATA });
+
+        const response = await axios.get<AnalyticsData>('/api/analytics');
+
         dispatch({
-            type: FETCH_ANALYTICS,
+            type: FETCH_ANALYTICS_DATA_SUCCESS,
             payload: response.data,
         });
-    } catch (error) {
-        console.error('Error fetching analytics:', error);
+    } catch (error: any) {
+        dispatch({
+            type: FETCH_ANALYTICS_DATA_ERROR,
+            payload: error.response?.data?.message || error.message || 'Failed to fetch analytics data',
+        });
     }
 };

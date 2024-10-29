@@ -1,22 +1,25 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import interactionReducer from './reducers/interactionReducer';
-import analyticsReducer from './reducers/analyticsReducer';
-import userReducer from './reducers/userReducer';
-import videoReducer from './reducers/videoReducer';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import userReducer from './userSlice';
+import videoReducer from './videoSlice';
+import analyticsReducer from './analyticsSlice';
 
-const rootReducer = combineReducers({
-    interaction: interactionReducer,
-    analytics: analyticsReducer,
-    user: userReducer,
-    video: videoReducer,
+const store = configureStore({
+    reducer: {
+        user: userReducer,
+        video: videoReducer,
+        analytics: analyticsReducer,
+    },
+    devTools: process.env.NODE_ENV !== 'production',
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = ThunkDispatch<RootState, unknown, AnyAction>;
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+export type AppThunk<ReturnType = void> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    Action<string>
+>;
 
 export default store;

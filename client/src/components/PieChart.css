@@ -1,0 +1,23 @@
+.pie-chart-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.pie-chart-placeholder {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #7f8c8d;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.pie-chart-placeholder p {
+    margin-top: 10px;
+    font-size: 1rem;
+}

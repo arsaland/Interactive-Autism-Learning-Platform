@@ -1,22 +1,39 @@
-import { Dispatch } from 'redux';
 import { AppThunk } from '../store';
+import axios from 'axios';
 
-export const FETCH_NEXT_VIDEO = 'FETCH_NEXT_VIDEO';
-export const FETCH_NEXT_VIDEO_SUCCESS = 'FETCH_NEXT_VIDEO_SUCCESS';
+// Action Types
+export const FETCH_ALL_VIDEOS = 'FETCH_ALL_VIDEOS';
+export const FETCH_ALL_VIDEOS_SUCCESS = 'FETCH_ALL_VIDEOS_SUCCESS';
+export const FETCH_ALL_VIDEOS_ERROR = 'FETCH_ALL_VIDEOS_ERROR';
+export const NEXT_VIDEO = 'NEXT_VIDEO';
 
-export const fetchNextVideo = (): AppThunk => async (dispatch: Dispatch) => {
+// Video Interface
+export interface Video {
+    _id: string;
+    title: string;
+    url: string;
+    category: string;
+    duration: number;
+}
+
+export const fetchAllVideos = (): AppThunk => async (dispatch) => {
     try {
-        // In a real application, you would fetch this from an API
-        const mockVideo = {
-            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-            title: 'Sample Video',
-        };
+        dispatch({ type: FETCH_ALL_VIDEOS });
+
+        const response = await axios.get<Video[]>('/api/videos');
 
         dispatch({
-            type: FETCH_NEXT_VIDEO_SUCCESS,
-            payload: mockVideo,
+            type: FETCH_ALL_VIDEOS_SUCCESS,
+            payload: response.data,
         });
-    } catch (error) {
-        console.error('Error fetching next video:', error);
+    } catch (error: any) {
+        dispatch({
+            type: FETCH_ALL_VIDEOS_ERROR,
+            payload: error.response?.data?.message || error.message || 'Failed to fetch videos',
+        });
     }
 };
+
+export const nextVideo = (): { type: typeof NEXT_VIDEO } => ({
+    type: NEXT_VIDEO,
+});

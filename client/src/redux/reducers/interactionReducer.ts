@@ -1,16 +1,19 @@
-import { LOG_INTERACTION } from '../actions/interactionActions';
+import { AnyAction } from 'redux';
 
-const initialState = {
-    interactions: [],
+// Interaction State Interface
+interface InteractionState {
+    // Define interaction-related state
+}
+
+// Initial State
+const initialState: InteractionState = {
+    // Initialize state
 };
 
-const interactionReducer = (state = initialState, action: any) => {
+// Interaction Reducer
+const interactionReducer = (state = initialState, action: AnyAction): InteractionState => {
     switch (action.type) {
-        case LOG_INTERACTION:
-            return {
-                ...state,
-                interactions: [...state.interactions, action.payload],
-            };
+        // Handle interaction-related actions
         default:
             return state;
     }

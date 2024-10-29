@@ -1,16 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import ErrorBoundary from './components/ErrorBoundary';
 import AdminDashboard from './pages/AdminDashboard';
-import UserInterface from './pages/UserInterface';
+import Home from './pages/Home';
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <Routes>
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/" element={<UserInterface />} />
-            </Routes>
-        </Router>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+                path="/admin"
+                element={
+                    <ErrorBoundary>
+                        <AdminDashboard />
+                    </ErrorBoundary>
+                }
+            />
+        </Routes>
     );
 };
 
