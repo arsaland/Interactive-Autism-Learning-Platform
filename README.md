@@ -48,8 +48,8 @@ project-root/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/arsaland/interactive-autism-learning-platform.git
-   cd interactive-autism-learning-platform
+   git clone https://github.com/arsaland/interactive-learning-platform.git
+   cd interactive-learning-platform
    ```
 
 2. **Install dependencies**
